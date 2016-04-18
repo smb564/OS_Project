@@ -13,6 +13,7 @@ import java.util.Comparator;
  */
 public class Process{
     private static int processCount = 0;
+    private static int totalExecutionTime = 0;
     private final String name;
     private final String processId;
     private final int startingDeadline;
@@ -51,11 +52,13 @@ public class Process{
     
     public void execute(int executionTime){
         if (executionTime > remainingTime){
+            totalExecutionTime += remainingTime;
             remainingTime = 0;
             finished = true;
+        }else{
+            remainingTime -= executionTime;
+            totalExecutionTime += executionTime;
         }
-        remainingTime -= executionTime;
-        
     }
     
     public String getName() {
