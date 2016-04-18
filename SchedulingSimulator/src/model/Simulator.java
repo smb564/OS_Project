@@ -17,12 +17,14 @@ public class Simulator {
     private final ArrayList<Process> activeProcessList;
     private final int finishingDeadlinePriority;
     private final int startingDeadlinePriority;
+    private final int timeQuantum;
 
-    public Simulator(int finishingDeadlinePriority, int startingDeadlinePriority) {
+    public Simulator(int finishingDeadlinePriority, int startingDeadlinePriority, int timeQuantum) {
         this.finishingDeadlinePriority = finishingDeadlinePriority;
         this.startingDeadlinePriority = startingDeadlinePriority;
         processList = new ArrayList<>();
         activeProcessList = new ArrayList<>();
+        this.timeQuantum = timeQuantum;
     }
     
     
@@ -57,5 +59,18 @@ public class Simulator {
         for (int i=0 ; i < activeProcessList.size() ; i++)
             activeProcessList.get(i).addPriority((i+1)*startingDeadlinePriority);
         
+    }
+    
+    public boolean executeNextProcess(){
+        if (activeProcessList.isEmpty())
+            return false;
+        
+        // Sort by priority value
+        Collections.sort(activeProcessList, Process.priorityValue);
+        
+        // Now execute the process
+        activeProcessList.get(0).execute(timeQuantum);
+
+        return true;
     }
 }
