@@ -49,13 +49,13 @@ public class Process{
         return finishingDeadline;
     }
     
-    public int execute(int executionTime){
+    public void execute(int executionTime){
         if (executionTime > remainingTime){
             remainingTime = 0;
-            return (executionTime - remainingTime);
+            finished = true;
         }
         remainingTime -= executionTime;
-        return 0;
+        
     }
     
     public String getName() {
