@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 
 /**
@@ -23,6 +24,8 @@ public class Process{
     private final int executingTime;
     private int remainingTime;
     private final int readyTime;
+    private final ArrayList<Integer> runningTimePosition; // This will maintain the times at which the process executed.
+    private int lastExecutedDuration;
 
     public Process(int startingDeadline, int finishingDeadline , String name, int executingTime, int readyTime) {
         processId = ++processCount + "p" ;
@@ -32,10 +35,23 @@ public class Process{
         finished = false;
         this.executingTime = executingTime;
         this.readyTime = readyTime;
+        runningTimePosition = new ArrayList<>();
     }
 
     public int getReadyTime() {
         return readyTime;
+    }
+
+    public int getLastExecutedDuration() {
+        return lastExecutedDuration;
+    }
+
+    public ArrayList<Integer> getRunningTimePosition() {
+        return runningTimePosition;
+    }
+
+    public static int getTotalExecutionTime() {
+        return totalExecutionTime;
     }
 
     public int getExecutingTime() {
@@ -51,7 +67,10 @@ public class Process{
     }
     
     public void execute(int executionTime){
+        runningTimePosition.add(totalExecutionTime);
+        
         if (executionTime > remainingTime){
+            lastExecutedDuration = remainingTime;
             totalExecutionTime += remainingTime;
             remainingTime = 0;
             finished = true;
