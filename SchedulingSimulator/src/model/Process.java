@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.util.Comparator;
+
 /**
  *
  * @author Supun
@@ -59,8 +61,12 @@ public class Process{
         return priority;
     }
 
-    public void setPriority(int priority) {
-        this.priority = priority;
+    public void addPriority(int value){
+        priority += value;
+    }
+    
+    public void clearPriority(){
+        priority = 0;
     }
 
     @Override
@@ -88,6 +94,31 @@ public class Process{
         return finished;
     }
     
-    // The following code block is used to sort 
+    // The following code block is used to sort (Used lambda expressions in java 8)
+
+    /**
+     * This sorting will make the processes in a way that process with the highest value comes first
+     * Hence apply priorities values starting from the first item. (With first item having the least priority value)
+     */
+    public static Comparator<Process> finishingTimeValueSort = (Process p1, Process p2) -> {
+        // will return in decreasing order
+        // total time elapsed is a constant here. So it can be neglected in the value calculation
+        int p1Value = p1.getFinishingDeadline() - p1.getRemainingTime();
+        int p2Value = p2.getFinishingDeadline() - p2.getRemainingTime();
+        
+        return p2Value-p1Value;
+    };
+
+    /**
+     * This sorting will order the processes in a way that process with the last starting deadline comes first
+     * Hence apply priorities values starting from the first item. (With first item having the least priority value)
+     */
+    public static Comparator<Process> startindDeadlineValue = (Process p1, Process p2) -> p2.getStartingDeadline() - p1.getFinishingDeadline();
+    
+    /**
+     * This sorting will order the processes in a manner such that the highest priority process comes first in the arrayList
+     * Hence take the first item in the activeProcessesList to execute.
+     */
+    public static Comparator<Process> priorityValue = (Process p1 , Process p2) -> p2.getPriority() - p1.getPriority();
     
 }
