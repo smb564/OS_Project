@@ -6,19 +6,19 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  *
  * @author Supun
  */
 public class Simulator {
-    private ArrayList<Process> processList;
-    private ArrayList<Process> activeProcessList;
-    private Process nextProcess;
-    private final float finishingDeadlinePriority;
-    private final float startingDeadlinePriority;
+    private final ArrayList<Process> processList;
+    private final ArrayList<Process> activeProcessList;
+    private final int finishingDeadlinePriority;
+    private final int startingDeadlinePriority;
 
-    public Simulator(float finishingDeadlinePriority, float startingDeadlinePriority) {
+    public Simulator(int finishingDeadlinePriority, int startingDeadlinePriority) {
         this.finishingDeadlinePriority = finishingDeadlinePriority;
         this.startingDeadlinePriority = startingDeadlinePriority;
         processList = new ArrayList<>();
@@ -34,17 +34,28 @@ public class Simulator {
     }
     
     public void updateProcessState(){
-        int tempMaxPriority;
         activeProcessList.stream().forEach((process) -> {
             if (process.isFinished())
                 activeProcessList.remove(process);
             else{
-                // Set the priority from the selection algorithm
+                setPriorityFromSelectionAlgorithm();
             }
         });
     }
     
-    public int getPriorityFromSelectionAlgorithm(Process process){
+    private void setPriorityFromSelectionAlgorithm(){
+        // Allocate finishingTime priority
+        Collections.sort(activeProcessList, Process.finishingTimeValueSort);
+        for (int i = 0; i < activeProcessList.size() ; i++){
+            activeProcessList.get(i).clearPriority();
+            activeProcessList.get(i).addPriority((i+1) * finishingDeadlinePriority);
+        }
+        
+        // Allcate startingTime priority
+        Collections.sort(activeProcessList, Process.startindDeadlineValue);
+        
+        for (int i=0 ; i < activeProcessList.size() ; i++)
+            activeProcessList.get(i).addPriority((i+1)*startingDeadlinePriority);
         
     }
 }
