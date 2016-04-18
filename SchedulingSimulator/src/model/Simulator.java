@@ -18,6 +18,7 @@ public class Simulator {
     private final int finishingDeadlinePriority;
     private final int startingDeadlinePriority;
     private final int timeQuantum;
+    private String currentlyExecutingPID;
 
     public Simulator(int finishingDeadlinePriority, int startingDeadlinePriority, int timeQuantum) {
         this.finishingDeadlinePriority = finishingDeadlinePriority;
@@ -65,12 +66,21 @@ public class Simulator {
         if (activeProcessList.isEmpty())
             return false;
         
+        
+        updateProcessState();
+        
         // Sort by priority value
         Collections.sort(activeProcessList, Process.priorityValue);
         
         // Now execute the process
         activeProcessList.get(0).execute(timeQuantum);
-
+        // Set currentlyExecuting processID
+        currentlyExecutingPID = activeProcessList.get(0).getProcessId();
         return true;
     }
+
+    public String getCurrentlyExecutingPID() {
+        return currentlyExecutingPID;
+    }
+    
 }
