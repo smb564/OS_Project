@@ -7,6 +7,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 
 /**
  *
@@ -37,13 +38,13 @@ public class Simulator {
     }
     
     public void updateProcessState(){
-        activeProcessList.stream().forEach((process) -> {
-            if (process.isFinished())
-                activeProcessList.remove(process);
-            else{
-                setPriorityFromSelectionAlgorithm();
-            }
-        });
+
+        for(Iterator<Process> iterator = activeProcessList.iterator() ; iterator.hasNext();){
+            Process temp = iterator.next();
+            if (temp.isFinished())
+                iterator.remove();
+        }
+        setPriorityFromSelectionAlgorithm();
     }
     
     private void setPriorityFromSelectionAlgorithm(){
