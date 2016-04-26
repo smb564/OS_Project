@@ -36,6 +36,7 @@ public class Process{
         this.executingTime = executingTime;
         this.readyTime = readyTime;
         runningTimePosition = new ArrayList<>();
+        remainingTime = executingTime;
     }
 
     public int getReadyTime() {
