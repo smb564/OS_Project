@@ -63,12 +63,11 @@ public class Simulator {
         
     }
     
-    public boolean executeNextProcess(){
+    public boolean executeNextProcess(){        
+        updateProcessState();
+        
         if (activeProcessList.isEmpty())
             return false;
-        
-        
-        updateProcessState();
         
         // Sort by priority value
         Collections.sort(activeProcessList, Process.priorityValue);
