@@ -88,6 +88,7 @@ public class Process{
         }else{
             remainingTime -= executionTime;
             totalExecutionTime += executionTime;
+            lastExecutedDuration = executionTime;
         }
     }
     
