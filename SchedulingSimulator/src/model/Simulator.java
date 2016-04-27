@@ -14,6 +14,9 @@ import java.util.Iterator;
  * @author Supun
  */
 public class Simulator {
+    // For testing
+    public Process lastExecuted;
+    
     private final ArrayList<Process> processList;
     private final ArrayList<Process> activeProcessList;
     private final int finishingDeadlinePriority;
@@ -40,7 +43,7 @@ public class Simulator {
     public void updateProcessState(){
         
         for (Process temp : processList) {
-            if((!processList.contains(temp)) && (temp.getReadyTime() <= Process.getTotalExecutionTime())){
+            if((!activeProcessList.contains(temp)) && (temp.getReadyTime() <= Process.getTotalExecutionTime())){
                 activeProcessList.add(temp);
             }
         }
@@ -48,7 +51,7 @@ public class Simulator {
         for(Iterator<Process> iterator = activeProcessList.iterator() ; iterator.hasNext();){
             Process temp = iterator.next();
             if (temp.isFinished())
-                iterator.remove();
+                 iterator.remove();
         }
         setPriorityFromSelectionAlgorithm();
     }
@@ -82,6 +85,8 @@ public class Simulator {
         activeProcessList.get(0).execute(timeQuantum);
         // Set currentlyExecuting processID
         currentlyExecutingPID = activeProcessList.get(0).getProcessId();
+        // For testing
+        lastExecuted = activeProcessList.get(0);
         return true;
     }
 
