@@ -34,10 +34,16 @@ public class Simulator {
         // Create a new processID
         Process newProcess = new Process(startingDeadline, finishingDeadline, name, executingTime, readyTime);
         processList.add(newProcess);
-        activeProcessList.add(newProcess);
+        
     }
     
     public void updateProcessState(){
+        
+        for (Process temp : processList) {
+            if((!processList.contains(temp)) && (temp.getReadyTime() <= Process.getTotalExecutionTime())){
+                activeProcessList.add(temp);
+            }
+        }
 
         for(Iterator<Process> iterator = activeProcessList.iterator() ; iterator.hasNext();){
             Process temp = iterator.next();
