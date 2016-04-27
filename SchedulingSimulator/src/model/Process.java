@@ -26,6 +26,7 @@ public class Process{
     private final int readyTime;
     private final ArrayList<Integer> runningTimePosition; // This will maintain the times at which the process executed.
     private int lastExecutedDuration;
+    private boolean ready;
 
     public Process(int startingDeadline, int finishingDeadline , String name, int executingTime, int readyTime) {
         processId = ++processCount + "p" ;
@@ -37,6 +38,15 @@ public class Process{
         this.readyTime = readyTime;
         runningTimePosition = new ArrayList<>();
         remainingTime = executingTime;
+        ready = false;
+    }
+
+    public boolean isReady() {
+        return ready;
+    }
+
+    public void setReady(boolean ready) {
+        this.ready = ready;
     }
 
     public int getReadyTime() {
